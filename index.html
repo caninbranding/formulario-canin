@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Marca - CANIN Branding</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f0f;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            max-width: 550px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+        }
+
+        .form-header {
+            background: #1a1a1a;
+            padding: 35px 30px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .form-header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .form-header p {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: transparent;
+            color: #ffffff;
+            padding: 5px 12px;
+            border: 1px solid #404040;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .form-body {
+            padding: 35px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .form-group.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .required {
+            color: #ff6b6b;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #242424;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="tel"]::placeholder,
+        textarea::placeholder {
+            color: #707070;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #ffffff;
+            background: #2a2a2a;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 75px;
+        }
+
+        .form-info {
+            background: #242424;
+            padding: 12px;
+            border-left: 2px solid #ffffff;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        .form-info strong {
+            color: #ffffff;
+        }
+
+        .form-progress {
+            background: #2a2a2a;
+            height: 4px;
+            border-radius: 2px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .form-progress-bar {
+            height: 100%;
+            background: #ffffff;
+            width: 25%;
+            transition: width 0.3s ease;
+        }
+
+        .form-step-info {
+            font-size: 0.8rem;
+            color: #707070;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-next {
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-back {
+            background: #242424;
+            color: #ffffff;
+            border: 1px solid #404040;
+        }
+
+        .btn-back:hover {
+            background: #2a2a2a;
+            border-color: #505050;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 35px 30px;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            background: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 35px;
+            color: #ffffff;
+        }
+
+        .success-message h2 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .success-message p {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .success-message strong {
+            color: #ffffff;
+        }
+
+        .error-message {
+            background: #3d2424;
+            color: #ff6b6b;
+            padding: 11px 13px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 0.85rem;
+            border: 1px solid #552222;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #242424;
+        }
+
+        .checkbox-item:hover {
+            border-color: #ffffff;
+            background: #2a2a2a;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: auto;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #ffffff;
+        }
+
+        .checkbox-item label {
+            margin-bottom: 0;
+            cursor: pointer;
+            flex: 1;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .text-small {
+            font-size: 0.75rem;
+            color: #505050;
+            text-align: center;
+            margin-top: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="form-header">
+            <div class="logo-container">
+                <img src="https://raw.githubusercontent.com/caninbranding/formulario-canin/82ea83c78a6ada4f56c618ef7fcc58e3189b3b88/logo.png" alt="Logo CANIN">
+            </div>
+            <h1>Pré-Diagnóstico</h1>
+            <p>Vamos mapear o cenário da sua marca</p>
+            <p style="font-size: 0.8rem; color: #b0b0b0; margin-top: 12px; line-height: 1.5;">Este formulário é essencial para eu entender seus desafios antes de mergulharmos fundo. Responda com clareza.</p>
+            <div class="badge" style="margin-top: 12px;">✓ 100% Gratuito</div>
+        </div>
+
+        <!-- FORM -->
+        <div class="form-body" id="formBody">
+            
+            <!-- PROGRESS BAR -->
+            <div class="form-progress">
+                <div class="form-progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="form-step-info" id="stepInfo"></div>
+
+            <form id="captureForm">
+                <!-- STEP 1: DADOS BÁSICOS -->
+                <div class="form-group active" id="step1">
+                    <label>Nome completo <span class="required">*</span></label>
+                    <input type="text" id="nome" required placeholder="Ex: João Silva">
+
+                    <label style="margin-top: 15px;">Email <span class="required">*</span></label>
+                    <input type="email" id="email" required placeholder="Ex: joao@empresa.com">
+
+                    <label style="margin-top: 15px;">WhatsApp/Telefone <span class="required">*</span></label>
+                    <input type="tel" id="telefone" required placeholder="Ex: (84) 99999-9999">
+                </div>
+
+                <!-- STEP 2: EMPRESA -->
+                <div class="form-group" id="step2">
+                    <label>Nome da empresa <span class="required">*</span></label>
+                    <input type="text" id="empresa" required placeholder="Ex: Acme Solutions">
+
+                    <label style="margin-top: 15px;">Seu cargo na empresa <span class="required">*</span></label>
+                    <input type="text" id="cargo" required placeholder="Ex: CEO, Gerente de Marketing">
+
+                    <label style="margin-top: 15px;">Ramo/Segmento <span class="required">*</span></label>
+                    <select id="segmento" required>
+                        <option value="">Escolha uma opção...</option>
+                        <option value="tecnologia">Tecnologia / SaaS</option>
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="servicos">Serviços Profissionais</option>
+                        <option value="consultoria">Consultoria / Agências</option>
+                        <option value="saude">Saúde / Wellness</option>
+                        <option value="financeiro">Financeiro</option>
+                        <option value="educacao">Educação</option>
+                        <option value="alimentos">Alimentos / Bebidas</option>
+                        <option value="moda">Moda / Beleza</option>
+                        <option value="imovel">Imobiliário</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+
+                <!-- STEP 3: TAMANHO & ORÇAMENTO -->
+                <div class="form-group" id="step3">
+                    <label>Quantos funcionários a empresa tem? <span class="required">*</span></label>
+                    <select id="tamanho" required>
+                        <option value="">Escolha uma opção...</option>
+                        <option value="1-10">1 a 10 pessoas</option>
+                        <option value="11-50">11 a 50 pessoas</option>
+                        <option value="51-200">51 a 200 pessoas</option>
+                        <option value="201-500">201 a 500 pessoas</option>
+                        <option value="500+">Mais de 500</option>
+                    </select>
+
+                    <label style="margin-top: 15px;">Orçamento para branding (estimado) <span class="required">*</span></label>
+                    <select id="orcamento" required>
+                        <option value="">Escolha uma faixa...</option>
+                        <option value="ate-10k">Até R$ 10 mil</option>
+                        <option value="10-20k">R$ 10 mil a R$ 20 mil</option>
+                        <option value="20-30k">R$ 20 mil a R$ 30 mil</option>
+                        <option value="30-50k">R$ 30 mil a R$ 50 mil</option>
+                        <option value="50k+">Mais de R$ 50 mil</option>
+                        <option value="indefinido">Ainda não defini</option>
+                    </select>
+                </div>
+
+                <!-- STEP 4: NECESSIDADE & TIMELINE -->
+                <div class="form-group" id="step4">
+                    <label>Qual é o MAIOR desafio da sua marca hoje? <span class="required">*</span></label>
+                    <textarea id="desafio" required placeholder="Ex: Marca genérica, confundida com concorrentes..."></textarea>
+
+                    <label style="margin-top: 15px;">Qual é sua urgência para esse projeto? <span class="required">*</span></label>
+                    <select id="urgencia" required>
+                        <option value="">Escolha uma opção...</option>
+                        <option value="muito-urgente">Muito urgente (próximas 2 semanas)</option>
+                        <option value="urgente">Urgente (próximo mês)</option>
+                        <option value="medio">Médio prazo (2-3 meses)</option>
+                        <option value="flexible">Flexível (sem pressa)</option>
+                    </select>
+                </div>
+
+                <!-- STEP 5: PREFERÊNCIAS -->
+                <div class="form-group" id="step5">
+                    <label style="margin-bottom: 12px;">Qual é a melhor forma de contato? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="contato-whatsapp" name="melhor_contato" value="whatsapp" required>
+                            <label for="contato-whatsapp">WhatsApp</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="contato-email" name="melhor_contato" value="email">
+                            <label for="contato-email">Email</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="contato-call" name="melhor_contato" value="call">
+                            <label for="contato-call">Ligação</label>
+                        </div>
+                    </div>
+
+                    <label style="margin-top: 20px; margin-bottom: 12px;">Você já trabalhou com consultoria de branding antes? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="exp-sim" name="experiencia_branding" value="sim" required>
+                            <label for="exp-sim">Sim, já contratei</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="exp-nao" name="experiencia_branding" value="nao">
+                            <label for="exp-nao">Não, é primeira vez</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 6: CONFIRMAÇÃO -->
+                <div class="form-group" id="step6">
+                    <div class="form-info">
+                        <strong>✓ Garantia 100% de privacidade</strong><br>
+                        Usaremos seus dados APENAS para entender melhor seu projeto.
+                    </div>
+
+                    <div class="checkbox-item" style="margin-bottom: 18px;">
+                        <input type="checkbox" id="aceita-termos" required>
+                        <label for="aceita-termos">Concordo em receber nossa ligação para agendar o pré-diagnóstico</label>
+                    </div>
+
+                    <div style="text-align: center; color: #b0b0b0; font-size: 0.85rem; line-height: 1.5;">
+                        <p><strong style="color: #ffffff;">Próximo passo:</strong></p>
+                        <p>Entrarei em contato em até 24h para marcar nossa conversa.</p>
+                    </div>
+                </div>
+
+                <!-- ERROR MESSAGE -->
+                <div class="error-message" id="errorMessage"></div>
+
+                <!-- BUTTONS -->
+                <div class="button-group">
+                    <button type="button" class="btn-back" id="btnBack" style="display: none;">← Voltar</button>
+                    <button type="button" class="btn-next" id="btnNext">Próximo →</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- SUCCESS MESSAGE -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <h2>Formulário Recebido com Sucesso! 🎉</h2>
+            <p>Obrigado, <strong id="successNome"></strong>. Seus dados já estão comigo.</p>
+            <p style="margin-top: 15px; line-height: 1.6;">Analisarei suas respostas e entrarei em contato em breve para agendar nossa conversa de qualificação (30 minutos).</p>
+            <p style="margin-top: 15px; color: #b0b0b0; font-size: 0.85rem;">Nos falamos em até 24h! 👊</p>
+            <p style="margin-top: 20px; color: #b0b0b0; font-size: 0.85rem; line-height: 1.6;">
+                📱 WhatsApp: <strong>(84) 99470-7023</strong><br>
+                📧 Email: <strong>contato@caninbranding.com</strong>
+            </p>
+        </div>
+
+        <div class="text-small">
+            CANIN Branding © 2025 | Transformando negócios em marcas únicas
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('captureForm');
+        const btnNext = document.getElementById('btnNext');
+        const btnBack = document.getElementById('btnBack');
+        const progressBar = document.getElementById('progressBar');
+        const stepInfo = document.getElementById('stepInfo');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const formBody = document.getElementById('formBody');
+
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        const steps = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
+        const stepTitles = [
+            'Dados Básicos (1/6)',
+            'Informações da Empresa (2/6)',
+            'Tamanho & Orçamento (3/6)',
+            'Seus Desafios (4/6)',
+            'Preferências (5/6)',
+            'Confirmação (6/6)'
+        ];
+
+        function showStep(step) {
+            steps.forEach((s, index) => {
+                const element = document.getElementById(s);
+                if (index + 1 === step) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+
+            stepInfo.textContent = stepTitles[step - 1];
+            progressBar.style.width = (step / totalSteps * 100) + '%';
+            btnBack.style.display = step > 1 ? 'block' : 'none';
+            btnNext.textContent = step === totalSteps ? 'Enviar Formulário ✓' : 'Próximo →';
+        }
+
+        function validateStep(step) {
+            errorMessage.classList.remove('show');
+            let isValid = true;
+
+            if (step === 1) {
+                const nome = document.getElementById('nome').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const telefone = document.getElementById('telefone').value.trim();
+
+                if (!nome) {
+                    showError('Por favor, preencha seu nome completo.');
+                    return false;
+                }
+                if (!email) {
+                    showError('Por favor, preencha seu email.');
+                    return false;
+                }
+                if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                    showError('Por favor, insira um email válido.');
+                    return false;
+                }
+                if (!telefone) {
+                    showError('Por favor, preencha seu telefone.');
+                    return false;
+                }
+            }
+
+            if (step === 2) {
+                const empresa = document.getElementById('empresa').value.trim();
+                const cargo = document.getElementById('cargo').value.trim();
+                const segmento = document.getElementById('segmento').value.trim();
+
+                if (!empresa) {
+                    showError('Por favor, preencha o nome da empresa.');
+                    return false;
+                }
+                if (!cargo) {
+                    showError('Por favor, preencha seu cargo.');
+                    return false;
+                }
+                if (!segmento) {
+                    showError('Por favor, selecione um segmento.');
+                    return false;
+                }
+            }
+
+            if (step === 3) {
+                const tamanho = document.getElementById('tamanho').value.trim();
+                const orcamento = document.getElementById('orcamento').value.trim();
+
+                if (!tamanho) {
+                    showError('Por favor, selecione o tamanho da empresa.');
+                    return false;
+                }
+                if (!orcamento) {
+                    showError('Por favor, selecione um orçamento.');
+                    return false;
+                }
+            }
+
+            if (step === 4) {
+                const desafio = document.getElementById('desafio').value.trim();
+                const urgencia = document.getElementById('urgencia').value.trim();
+
+                if (!desafio) {
+                    showError('Por favor, descreva o desafio da sua marca.');
+                    return false;
+                }
+                if (!urgencia) {
+                    showError('Por favor, selecione uma urgência.');
+                    return false;
+                }
+            }
+
+            if (step === 5) {
+                const melhorContato = document.querySelector('input[name="melhor_contato"]:checked');
+                const experiencia = document.querySelector('input[name="experiencia_branding"]:checked');
+
+                if (!melhorContato) {
+                    showError('Por favor, selecione a melhor forma de contato.');
+                    return false;
+                }
+                if (!experiencia) {
+                    showError('Por favor, responda se já trabalhou com branding.');
+                    return false;
+                }
+            }
+
+            if (step === 6) {
+                const aceita = document.getElementById('aceita-termos').checked;
+                if (!aceita) {
+                    showError('Por favor, aceite os termos de privacidade.');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.classList.add('show');
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                if (currentStep === totalSteps) {
+                    submitForm();
+                } else {
+                    currentStep++;
+                    showStep(currentStep);
+                    window.scrollTo(0, 0);
+                }
+            }
+        });
+
+        btnBack.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+                window.scrollTo(0, 0);
+            }
+        });
+
+        function submitForm() {
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                empresa: document.getElementById('empresa').value,
+                cargo: document.getElementById('cargo').value,
+                segmento: document.getElementById('segmento').value,
+                tamanho: document.getElementById('tamanho').value,
+                orcamento: document.getElementById('orcamento').value,
+                desafio: document.getElementById('desafio').value,
+                urgencia: document.getElementById('urgencia').value,
+                melhor_contato: document.querySelector('input[name="melhor_contato"]:checked').value,
+                experiencia_branding: document.querySelector('input[name="experiencia_branding"]:checked').value,
+                timestamp: new Date().toISOString(),
+                origem: 'Landing Page Diagnóstico'
+            };
+
+            const leads = JSON.parse(localStorage.getItem('caninLeads') || '[]');
+            leads.push(formData);
+            localStorage.setItem('caninLeads', JSON.stringify(leads));
+
+            sendToBravo(formData);
+            showSuccess(formData);
+        }
+
+        function showSuccess(data) {
+            formBody.style.display = 'none';
+            successMessage.classList.add('show');
+            document.getElementById('successNome').textContent = data.nome;
+        }
+
+        // Integração Brevo
+      function sendToBravo(data) {
+    // Enviar para Netlify Function (backend seguro)
+    fetch('/.netlify/functions/enviar-lead', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            console.log('✓ Lead enviado ao Brevo com sucesso');
+        } else {
+            console.error('❌ Erro ao enviar lead:', result.error);
+            // Mesmo com erro no Brevo, mostramos sucesso pro usuário
+            // pois os dados já foram salvos no localStorage
+        }
+    })
+    .catch(error => {
+        console.error('❌ Erro na requisição:', error);
+        // Mesmo com erro, dados estão salvos localmente
+    });
+}
+
+        showStep(1);
+    </script>
+</body>
+</html>
