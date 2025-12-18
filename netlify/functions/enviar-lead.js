@@ -62,12 +62,28 @@ Origem: Landing Page Diagnóstico CANIN
     updateEnabled: true,
     listIds: [3],
     attributes: {
-      FIRSTNAME: String(data.nome),
-      SMS: telefone,
-      JOB_TITLE: String(data.cargo || ''),
-      COMPANY: String(data.empresa || ''),
-      DESCRICAO_LEAD: leadInfo
-    }
+  NOME: String(data.nome || ''),
+  SOBRENOME: String(data.sobrenome || ''),
+  EMAIL: String(data.email || ''),
+
+  TELEFONE: telefone,
+  SMS: telefone,
+  LANDLINE_NUMBER: telefone,
+
+  CARGO: String(data.cargo || ''),
+  EMPRESA: String(data.empresa || ''),
+  SEGMENTO: String(data.segmento || ''),
+  TAMANHO: String(data.tamanho || ''),
+
+  ORCAMENTO: String(data.orcamento || ''),
+  URGENCIA: String(data.urgencia || ''),
+  MELHOR_CONTATO: String(data.melhor_contato || ''),
+  EXPERIENCIA_BRANDING: String(data.experiencia_branding || ''),
+
+  DESAFIO: String(data.desafio || ''),
+  DESCRICAO_LEAD: leadInfo
+}
+
   };
 
   try {
