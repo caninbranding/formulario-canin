@@ -27,25 +27,57 @@ exports.handler = async (event, context) => {
     }
 
     // Preparar dados para o Brevo
-    const brevoData = {
-        email: data.email,
-        attributes: {
-    NOME: data.nome,
-    SOBRENOME: '', // Deixar vazio por enquanto
-    TELEFONE: data.telefone,
-    EMPRESA: data.empresa,
-    CARGO: data.cargo,
-    SEGMENTO: data.segmento,
-    TAMANHO: data.tamanho,
-    ORCAMENTO: data.orcamento,
-    URGENCIA: data.urgencia,
-    DESAFIO: data.desafio,
-    MELHOR_CONTATO: data.melhor_contato,
-    EXPERIENCIA_BRANDING: data.experiencia_branding,
-    JOB_TITLE: data.cargo, // Duplicar cargo para JOB_TITLE também
-    LANDLINE_NUMBER: data.telefone, // Duplicar telefone
-    SMS: data.telefone // Duplicar telefone para SMS também
-},
+    // Criar uma string com todas as informações do lead formatadas
+const leadInfo = `
+═══════════════════════════════════════
+📋 LEAD CAPTURADO - ${new Date().toLocaleString('pt-BR')}
+═══════════════════════════════════════
+
+👤 DADOS DE CONTATO
+Nome: ${data.nome || '-'}
+Email: ${data.email || '-'}
+Telefone/WhatsApp: ${data.telefone || '-'}
+
+🏢 INFORMAÇÕES DA EMPRESA
+Empresa: ${data.empresa || '-'}
+Cargo do contato: ${data.cargo || '-'}
+Segmento de atuação: ${data.segmento || '-'}
+Tamanho da empresa: ${data.tamanho || '-'}
+
+💰 DETALHES DO PROJETO
+Orçamento estimado: ${data.orcamento || '-'}
+Nível de urgência: ${data.urgencia || '-'}
+
+❓ PRINCIPAL DESAFIO DA MARCA
+${data.desafio || '-'}
+
+📞 PREFERÊNCIAS DE COMUNICAÇÃO
+Melhor forma de contato: ${data.melhor_contato || '-'}
+Experiência anterior com branding: ${data.experiencia_branding || '-'}
+
+═══════════════════════════════════════
+Origem: Landing Page Diagnóstico CANIN
+Data/Hora: ${new Date().toLocaleString('pt-BR')}
+═══════════════════════════════════════
+`.trim();
+
+        // Preparar dados para enviar ao Brevo
+        const brevoData = {
+            email: data.email,
+            attributes: {
+                // Campos principais que funcionam
+                FIRSTNAME: data.nome || '',
+                SMS: data.telefone || '',
+                LANDLINE_NUMBER: data.telefone || '',
+                JOB_TITLE: data.cargo || '',
+                
+                // Colocar TODAS as informações formatadas no campo LINKEDIN
+                // (usamos este campo porque ele funciona e aceita texto longo)
+                LINKEDIN: leadInfo
+            },
+            listIds: [3],
+            updateEnabled: true
+        };
         listIds: [3],
         updateEnabled: true
     };
