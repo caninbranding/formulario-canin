@@ -30,18 +30,22 @@ exports.handler = async (event, context) => {
     const brevoData = {
         email: data.email,
         attributes: {
-            NOME: data.nome,
-            TELEFONE: data.telefone || '',
-            EMPRESA: data.empresa || '',
-            CARGO: data.cargo || '',
-            SEGMENTO: data.segmento || '',
-            TAMANHO: data.tamanho || '',
-            ORCAMENTO: data.orcamento || '',
-            URGENCIA: data.urgencia || '',
-            DESAFIO: data.desafio || '',
-            MELHOR_CONTATO: data.melhor_contato || '',
-            EXPERIENCIA_BRANDING: data.experiencia_branding || ''
-        },
+    NOME: data.nome,
+    SOBRENOME: '', // Deixar vazio por enquanto
+    TELEFONE: data.telefone,
+    EMPRESA: data.empresa,
+    CARGO: data.cargo,
+    SEGMENTO: data.segmento,
+    TAMANHO: data.tamanho,
+    ORCAMENTO: data.orcamento,
+    URGENCIA: data.urgencia,
+    DESAFIO: data.desafio,
+    MELHOR_CONTATO: data.melhor_contato,
+    EXPERIENCIA_BRANDING: data.experiencia_branding,
+    JOB_TITLE: data.cargo, // Duplicar cargo para JOB_TITLE também
+    LANDLINE_NUMBER: data.telefone, // Duplicar telefone
+    SMS: data.telefone // Duplicar telefone para SMS também
+},
         listIds: [3],
         updateEnabled: true
     };
